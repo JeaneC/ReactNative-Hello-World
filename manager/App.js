@@ -1,9 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux'
-import { StyleSheet, Text, View } from 'react-native';
+import { createStore, applyMiddleware } from 'redux'
 import firebase from 'firebase'
 import reducers from './src/reducers'
+import LoginForm from './src/components/LoginForm'
+import ReduxThunk from 'redux-thunk'
 
 export default class App extends React.Component {
   componentWillMount() {
@@ -15,25 +16,18 @@ export default class App extends React.Component {
       storageBucket: "manage-9bc5d.appspot.com",
       messagingSenderId: "320899826137"
     };
-    
+
     firebase.initializeApp(config);
   }
+
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+
+
     return (
-      <Provider store={createStore(reducers)}>
-        <View style={styles.container}>
-          <Text>Hello</Text>
-        </View>
+      <Provider store={store}>
+        <LoginForm />
       </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
