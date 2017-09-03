@@ -73,6 +73,8 @@ const styles = {
   }
 }
 
+//mapStateToProps
+//Ability to interface from application level state to the component level
 const mapStateToProps = (state, ownProps) => {
   //ownProps are the props that were passed to the component we were wrapping
   //So these were the props from ListItem (this folder)
