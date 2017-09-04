@@ -8,3 +8,4 @@ __Description:__ This repository contains a few projects I've been working on in
 5. __Swipe__ - Animating A List of Cards similar to Tinder
 6. __OneTimePassword__ - Cloud Functions with __Firebase__ and __Twilio__ for __FirebaseAuth__
 7. __FirebaseAuth__ - Manually create a one-time auth token by texting the user. When the user enters the verification code back correctly, the user gets access to everything in firebase.
+8. __Jobs__ - Pending Description...
