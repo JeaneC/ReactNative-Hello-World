@@ -8,18 +8,21 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
-import flagPinkImg from './assets/flag-pink.png';
 
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.02;
-const LONGITUDE_DELTA = 0.02;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-class CustomMarkers extends React.Component {
+function randomColor() {
+  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+}
+
+class DefaultMarkers extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,8 +35,6 @@ class CustomMarkers extends React.Component {
       },
       markers: [],
     };
-
-    this.onMapPress = this.onMapPress.bind(this);
   }
 
   onMapPress(e) {
@@ -42,7 +43,8 @@ class CustomMarkers extends React.Component {
         ...this.state.markers,
         {
           coordinate: e.nativeEvent.coordinate,
-          key: `foo${id++}`,
+          key: id++,
+          color: randomColor(),
         },
       ],
     });
@@ -55,16 +57,13 @@ class CustomMarkers extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
-          onPress={this.onMapPress}
-          zoomEnabled={false}
+          onPress={(e) => this.onMapPress(e)}
         >
           {this.state.markers.map(marker => (
             <MapView.Marker
-              draggable
-              title={marker.key}
-              image={flagPinkImg}
               key={marker.key}
               coordinate={marker.coordinate}
+              pinColor={marker.color}
             />
           ))}
         </MapView>
@@ -81,7 +80,7 @@ class CustomMarkers extends React.Component {
   }
 }
 
-CustomMarkers.propTypes = {
+DefaultMarkers.propTypes = {
   provider: MapView.ProviderPropType,
 };
 
@@ -117,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = CustomMarkers;
+module.exports = DefaultMarkers;

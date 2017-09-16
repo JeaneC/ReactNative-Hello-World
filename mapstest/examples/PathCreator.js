@@ -18,7 +18,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-class PolylineCreator extends React.Component {
+class PathCreator extends React.Component {
   constructor(props) {
     super(props);
 
@@ -65,7 +65,6 @@ class PolylineCreator extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <View style={styles.container}>
         <MapView
@@ -80,7 +79,7 @@ class PolylineCreator extends React.Component {
               key={polyline.id}
               coordinates={polyline.coordinates}
               strokeColor="#000"
-              fillColor="rgba(255,0,0)"
+              fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
             />
           ))}
@@ -109,7 +108,7 @@ class PolylineCreator extends React.Component {
   }
 }
 
-PolylineCreator.propTypes = {
+PathCreator.propTypes = {
   provider: MapView.ProviderPropType,
 };
 
@@ -145,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = PolylineCreator;
+module.exports = PathCreator;

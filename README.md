@@ -9,3 +9,5 @@ __Description:__ This repository contains a few projects I've been working on in
 6. __OneTimePassword__ - Cloud Functions with __Firebase__ and __Twilio__ for __FirebaseAuth__
 7. __FirebaseAuth__ - Manually create a one-time auth token by texting the user. When the user enters the verification code back correctly, the user gets access to everything in firebase.
 8. __Jobs__ - Pending Description...
+9. __Mapstest__ - This is really just a playground that has all of the MapView's API by AirBNB imported into an expo project folder
+10. __MapMaker__ - This is a tool to (1) plot map markers and get their coordinates, (2) plot polylines to route between two points, and (3) play around with any features!
