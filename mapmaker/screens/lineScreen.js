@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { MapView, Location, Constants, Permissions } from 'expo';
 import { Button, Icon } from 'react-native-elements';
+import axios from 'axios';
+import qs from 'qs';
+import polyline from 'google-polyline'
 
-const API_KEY = 'AIzaSyCIrbtT3T0epacU3xxA_P1cq9Nqi9iOAzc'
 let id = 1;
 let loaded = false;
+
 
 class lineScreen extends Component {
   static navigationOptions = {
@@ -38,6 +41,13 @@ class lineScreen extends Component {
           id: 'main'
         },
       ],
+      polylines: [
+         {
+          coordinates: [
+          ],
+          id: 0,
+        },
+      ],
 
     };
 
@@ -57,9 +67,65 @@ class lineScreen extends Component {
     });
   }
 
-  printMarkers() {
-    console.log('The Markers Are');
-    console.log(this.state.markers);
+  printPath = () => {
+    console.log('The Path Is');
+    console.log(this.state.polylines);
+  }
+
+  drawPath = async () => {
+
+    console.log('Decoding Mode')
+
+
+    if (this.state.markers.length < 2) {
+      return console.log('We Need More Markers')
+    }
+
+    let { markers } = this.state
+    //console.log('We have enough markers')
+    //console.log(markers)
+
+
+    const origin = `${markers[1].coordinate.latitude},${markers[1].coordinate.longitude}`
+    const destination = `${markers[2].coordinate.latitude},${markers[2].coordinate.longitude}`
+
+
+    const GD_ROOT_URL = 'https://maps.googleapis.com/maps/api/directions/json?'
+    const GD_QUERY_PARAMS = {
+      key: 'AIzaSyCIrbtT3T0epacU3xxA_P1cq9Nqi9iOAzc',
+      origin,
+      destination
+    };
+
+    const params = qs.stringify(GD_QUERY_PARAMS)
+    const query = `${GD_ROOT_URL}${params}`
+    console.log(query)
+
+    let { data } = await axios.get(query); //google api request
+    // let coordList = data.routes[0].legs;
+
+    //let steps = data.routes[0].legs[0].steps
+    let overview = data.routes[0].overview_polyline.points
+
+    let coordsList = polyline.decode(overview)
+
+    let coordinates = []
+    for (i=0; i < coordsList.length; i++) {
+        coordinates.push({
+          latitude: coordsList[i][0],
+          longitude: coordsList[i][1]
+        })
+    }
+
+    let polylines = [
+       {
+        coordinates,
+        id: 0,
+      },
+    ]
+
+    this.setState({polylines})
+
   }
 
   clearMarkers = () => {
@@ -73,7 +139,18 @@ class lineScreen extends Component {
       },
     ]
 
-    this.setState({ markers });
+    let polylines = [
+       {
+        coordinates: [
+        ],
+        id: 0,
+      },
+    ]
+
+    this.setState({
+      markers,
+      polylines
+    });
 
   }
 
@@ -88,7 +165,7 @@ class lineScreen extends Component {
           style={styles.mapStyle}
           region={this.state.region}
           onPress={this.onMapPress}
-          zoomEnabled={false}
+          zoomEnabled={true}
           pitchEnabled={false}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
@@ -104,6 +181,17 @@ class lineScreen extends Component {
             </MapView.Marker>
           );
         })}
+        {this.state.polylines.map(polyline => {
+          return(
+            <MapView.Polyline
+              key={polyline.id}
+              coordinates={polyline.coordinates}
+              strokeColor="#FF0000"
+              fillColor="rgba(255,0,0)"
+              strokeWidth={5}
+            />
+          )
+        })}
         </MapView>
         <View style={styles.buttonContainer}>
           <Button
@@ -117,6 +205,14 @@ class lineScreen extends Component {
             small
             title="Draw"
             backgroundColor="#009688"
+            onPress={this.drawPath}
+            buttonStyle={styles.buttonStyle}
+          />
+          <Button
+            small
+            title="Print"
+            backgroundColor="blue"
+            onPress={this.printPath}
             buttonStyle={styles.buttonStyle}
           />
         </View>
