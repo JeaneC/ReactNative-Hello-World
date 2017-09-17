@@ -1,16 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import CustomMarkers from './examples/CustomMarkers'
-import PolylineCreator from './examples/PolylineCreator'
-import PathCreator from './examples/PathCreator'
-import PolygonCreator from './examples/PolygonCreator'
+
+
+import mainScreen from './screens/mainScreen'
+import lineScreen from './screens/lineScreen'
+import markerScreen from './screens/markerScreen'
+
+import { TabNavigator } from 'react-navigation';
 
 export default class App extends React.Component {
+
   render() {
+    const MainNavigator = TabNavigator({
+        line: { screen: lineScreen },
+        main: { screen: mainScreen },
+        marker: { screen: markerScreen },
+
+      }, {
+        lazy: true,
+        header: null
+      });
     return (
-      <View style={styles.container}>
-        <PolylineCreator />
-      </View>
+      <MainNavigator />
     );
   }
 }
@@ -18,7 +29,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
