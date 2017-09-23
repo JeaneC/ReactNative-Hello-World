@@ -10,10 +10,11 @@ export default class App extends React.Component {
 
 
   //Provider is called each time we rerender the app
+  //When the app first starts, it loads an initial state
   render() {
     return (
       <Provider store={createStore(reducers)}>
-        <View style={styles.container}>
+        <View style={{flex: 1}}>
           <Header headerText="Tech Stack" />
           <LibraryList/>
         </View>

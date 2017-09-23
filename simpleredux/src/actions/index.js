@@ -1,17 +1,8 @@
-export const voteReact = () => {
+//This whole export part is the action creator
+export const selectLibrary = (libraryId) => {
+  //This return part is the action object
   return {
-    type: 'VOTE_REACT'
-  }
-}
-
-export const voteAnguler = () => {
-  return {
-    type: 'VOTE_ANGULAR'
-  }
-}
-
-export const voteVuejs = () => {
-  return {
-    type: 'VOTE_VUEJS'
-  }
+    type: 'select_library',
+    payload: libraryId
+  };
 }
