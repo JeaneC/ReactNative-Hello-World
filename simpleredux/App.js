@@ -1,12 +1,23 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './src/reducers';
+import { Header } from './src/components/common';
+import LibraryList from './src/components/LibraryList'
 
 export default class App extends React.Component {
+
+
+  //Provider is called each time we rerender the app
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Provider store={createStore(reducers)}>
+        <View style={styles.container}>
+          <Header headerText="Tech Stack" />
+          <LibraryList/>
+        </View>
+      </Provider>
     );
   }
 }
