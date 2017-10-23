@@ -165,7 +165,7 @@ class lineScreen extends Component {
           style={styles.mapStyle}
           region={this.state.region}
           onPress={this.onMapPress}
-          zoomEnabled={true}
+          zoomEnabled={false}
           pitchEnabled={false}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >

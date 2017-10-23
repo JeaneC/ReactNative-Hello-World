@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { View, ListView } from 'react-native'
 import ListItem from './ListItem'
-
+import { Button } from 'react-native-elements'
 class LibraryList extends Component {
-
+  
   //Instant the component is about to be rendered, this will be called
   componentWillMount() {
     const ds = new ListView.DataSource({
@@ -21,10 +21,15 @@ class LibraryList extends Component {
   render() {
 
     return (
-      <ListView
-        dataSource={this.dataSource}
-        renderRow={this.renderRow}
-      />
+      <View style={{ flex: 1, marginBottom: 20}}>
+        <View style = {{ flex: 9}}>
+          <ListView
+            dataSource={this.dataSource}
+            renderRow={this.renderRow}
+          />
+        </View>
+        <Button large onPress={() => console.log('Hello')} buttonStyle={{flex: 1}} label='Hello'/>
+      </View>
     )
   }
 }

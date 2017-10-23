@@ -10,6 +10,11 @@ import * as actions from '../actions';
 
 class ListItem extends Component {
 
+  componentWillMount(){
+    console.log('I got here')
+    console.log(this.props)
+  }
+
   renderDescription() {
 
     const { library, expanded } = this.props;
@@ -53,6 +58,7 @@ const styles = {
 
 //ownProps is the samething as this.props
 const mapStateToProps = (state, ownProps) => {
+
   const expanded = state.selectedLibraryId === ownProps.library.id;
 
   return { expanded }

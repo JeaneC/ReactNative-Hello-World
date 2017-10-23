@@ -72,7 +72,7 @@ class markerScreen extends Component {
           style={styles.mapStyle}
           region={this.state.region}
           onPress={this.onMapPress}
-          zoomEnabled={false}
+          zoomEnabled={true}
           pitchEnabled={false}
           onRegionChangeComplete={this.onRegionChangeComplete}
         >
