@@ -56,6 +56,22 @@ class markerScreen extends Component {
     });
   }
 
+  clearMarkers = () => {
+    let markers = []
+    this.setState({ markers })
+  }
+
+  prev = () => {
+    if (this.state.markers.length == 0) {
+      return ''
+    }
+    let markers = [...this.state.markers]
+    markers.pop()
+
+    this.setState({ markers });
+  }
+
+
   printMarkers() {
     console.log('The Markers Are');
     console.log(this.state.markers);
@@ -90,13 +106,30 @@ class markerScreen extends Component {
           );
         })}
         </MapView>
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer1}>
+          <Button
+            small
+            title="Clear"
+            backgroundColor="red"
+            onPress={this.clearMarkers}
+            buttonStyle={styles.buttonStyle}
+          />
+          <Button
+            small
+            title="Prev"
+            backgroundColor="blue"
+            onPress={this.prev}
+            buttonStyle={styles.buttonStyle}
+          />
+        </View>
+        <View style={styles.buttonContainer2}>
           <Button
             large
             title="List All Coords"
             backgroundColor="#009688"
             icon={{ name: 'map' }}
             onPress={() => this.printMarkers()}
+            buttonStyle={{ borderRadius: 10 }}
           />
         </View>
       </View>
@@ -112,11 +145,24 @@ const styles = {
   mapStyle: {
     flex: 1
   },
-  buttonContainer: {
+  buttonContainer1: {
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    bottom: 100,
+    left: 0,
+    right: 0
+  },
+  buttonContainer2: {
     position: 'absolute',
     bottom: 20,
     left: 0,
     right: 0
+  },
+  buttonStyle: {
+    flex: 1,
+    width: 160,
+    borderRadius: 10
   }
 }
 

@@ -33,13 +33,6 @@ class lineScreen extends Component {
         latitudeDelta: 0.015,
       },
       markers: [
-        {
-          coordinate: {
-            latitude: 40.702832,
-            longitude: -73.756821,
-          },
-          id: 'main'
-        },
       ],
       polylines: [
          {
@@ -72,12 +65,33 @@ class lineScreen extends Component {
     console.log(this.state.polylines);
   }
 
+  prev = () => {
+    if (this.state.markers.length == 0) {
+      return ''
+    }
+    let markers = [...this.state.markers]
+    markers.pop()
+
+    let polylines = [
+       {
+        coordinates: [
+        ],
+        id: 0,
+      },
+    ]
+
+    this.setState({
+      markers,
+      polylines
+    });
+  }
+
   drawPath = async () => {
 
     console.log('Decoding Mode')
 
 
-    if (this.state.markers.length < 2) {
+    if (this.state.markers.length < 2 ) {
       return console.log('We Need More Markers')
     }
 
@@ -86,8 +100,8 @@ class lineScreen extends Component {
     //console.log(markers)
 
 
-    const origin = `${markers[1].coordinate.latitude},${markers[1].coordinate.longitude}`
-    const destination = `${markers[2].coordinate.latitude},${markers[2].coordinate.longitude}`
+    const origin = `${markers[0].coordinate.latitude},${markers[0].coordinate.longitude}`
+    const destination = `${markers[1].coordinate.latitude},${markers[1].coordinate.longitude}`
 
 
     const GD_ROOT_URL = 'https://maps.googleapis.com/maps/api/directions/json?'
@@ -130,13 +144,7 @@ class lineScreen extends Component {
 
   clearMarkers = () => {
     let markers = [
-      {
-        coordinate: {
-          latitude: 40.72004412623778,
-          longitude: -73.8111714306203,
-        },
-        id: 'main'
-      },
+
     ]
 
     let polylines = [
@@ -210,8 +218,15 @@ class lineScreen extends Component {
           />
           <Button
             small
-            title="Print"
+            title="Prev"
             backgroundColor="blue"
+            onPress={this.prev}
+            buttonStyle={styles.buttonStyle}
+          />
+          <Button
+            small
+            title="Print"
+            backgroundColor="black"
             onPress={this.printPath}
             buttonStyle={styles.buttonStyle}
           />
@@ -239,7 +254,7 @@ const styles = {
   },
   buttonStyle: {
     flex: 1,
-    width: 100,
+    width: 70,
     borderRadius: 10
   }
 }
